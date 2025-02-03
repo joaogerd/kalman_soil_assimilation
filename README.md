@@ -23,28 +23,30 @@ Example usage of the Kalman Filter:
 from kalman_soil.kalman_filter import KalmanFilter
 import numpy as np
 
-# Initialize Kalman Filter
-kf = KalmanFilter(state_dim=2, obs_dim=1)
+ state_dim = 2  # Soil moisture in two layers
+ obs_dim = 1    # Temperature as observation
 
-# Set transition and observation matrices
-F = np.array([[1, 0], [0, 1]])
-H = np.array([[1, 0]])
-Q = np.eye(2) * 0.01
-R = np.eye(1) * 0.1
-
-kf.set_state_transition(F)
-kf.set_observation_matrix(H)
-kf.set_process_covariance(Q)
-kf.set_observation_covariance(R)
-
-# Simulated observation
-z = np.array([[0.9]])
-
-# Prediction and update
-kf.predict()
-kf.update(z)
-
-print("Estimated state:", kf.get_state())
+ kf = KalmanFilter(state_dim, obs_dim)
+    
+ # Define a sample observation matrix (temperature influence on soil moisture)
+ kf.set_observation_matrix(np.array([[1.0, 0.5]]))  
+    
+ # Define a sample state transition matrix
+ kf.set_state_transition(np.array([[1, 0], [0, 1]]))  
+    
+ # Define noise covariance matrices
+ kf.set_process_covariance(np.eye(state_dim) * 0.01)  
+ kf.set_observation_covariance(np.eye(obs_dim) * 0.1)  
+    
+ # Sample observation
+ z = np.array([[0.9]])  
+    
+ # Prediction and update
+ kf.predict()
+ kf.update(z)
+    
+ # Print updated state
+ print("Updated state:", kf.get_state())
 ```
 
 ## Roadmap
