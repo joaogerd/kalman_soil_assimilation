@@ -54,11 +54,13 @@ import numpy as np
 
 ```
 
-## Roadmap
+## 📌 Roadmap  
 - [x] Implement basic Kalman Filter (KF)
 - [ ] Extend to Extended Kalman Filter (EKF)
 - [ ] Integrate satellite data (SMAP, ASCAT, GLDAS)
 - [ ] Validate against MONAN simulations
+
+Check out our detailed planning in [ROADMAP.md](./ROADMAP.md).  
 
 ## License
 This project is licensed under the **Creative Commons Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)**.
