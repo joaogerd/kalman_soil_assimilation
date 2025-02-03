@@ -1,7 +1,7 @@
 # Kalman Soil Assimilation
 
 ## Overview
-Kalman Soil Assimilation is a Python package for soil moisture data assimilation using the Kalman Filter in the BAM/SSiB model. This project aims to improve soil moisture representation by integrating satellite observations and in-situ measurements using advanced data assimilation techniques.
+Kalman Soil Assimilation is a Python package for soil moisture data assimilation using the Kalman Filter in the MONAN model. This project aims to improve soil moisture representation by integrating satellite observations and in-situ measurements using advanced data assimilation techniques.
 
 ## Features
 - Implementation of the Kalman Filter (KF) for soil moisture assimilation
