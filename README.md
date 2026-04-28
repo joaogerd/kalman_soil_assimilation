@@ -1,78 +1,97 @@
 # Kalman Soil Assimilation
 
-## Overview
-Kalman Soil Assimilation is a Python package for soil moisture data assimilation using the Kalman Filter in the MONAN model. This project aims to improve soil moisture representation by integrating satellite observations and in-situ measurements using advanced data assimilation techniques.
+Kalman Soil Assimilation is a Python package under development for soil moisture data assimilation and land-surface initial-condition generation for MONAN.
 
-## Features
-- Implementation of the Kalman Filter (KF) for soil moisture assimilation
-- Modular design to support future extensions (Extended Kalman Filter, Ensemble Kalman Filter)
-- Integration with satellite data (e.g., SMAP, ASCAT, GLDAS)
-- Easy-to-use API for integrating with MONAN simulations
+The project starts from a simple Kalman Filter implementation and is being evolved into a lightweight, reproducible and operationally useful scientific tool for generating soil-water initial conditions from model backgrounds, observations and satellite products.
+
+## Scientific goal
+
+The main goal is to estimate physically consistent soil moisture fields by combining:
+
+- MONAN or external model background fields;
+- satellite soil-moisture products such as SMAP, ASCAT, GLDAS and ERA5-Land;
+- optional in situ observations;
+- observation operators that map model soil layers to observation space;
+- background, process and observation uncertainty estimates;
+- physical constraints such as saturation, wilting point, land-sea mask and soil-layer limits.
+
+The first target variable is soil moisture, but the architecture must remain extensible for other land-surface variables.
+
+## Current status
+
+The repository currently contains a minimal Kalman Filter prototype and an initial package layout. It is not yet a complete MONAN initial-condition generator.
+
+The active development plan is documented in:
+
+- [ROADMAP.md](./ROADMAP.md) - current roadmap file;
+- [docs/development-roadmap.md](./docs/development-roadmap.md) - phased technical roadmap;
+- [docs/architecture.md](./docs/architecture.md) - recommended package architecture;
+- [docs/jaci-pbs.md](./docs/jaci-pbs.md) - initial guidance for JACI/PBS usage;
+- [docs/configuration.md](./docs/configuration.md) - configuration strategy.
+
+## Existing package layout
+
+```text
+kalman_soil/
+├── __init__.py
+├── assimilation.py
+├── data_loader.py
+├── kalman_filter.py
+├── model_state.py
+└── visualization.py
+```
+
+This layout is intentionally small. The next development phases will reorganize the package incrementally, avoiding a heavy framework while adding the concepts needed for real soil-moisture assimilation.
 
 ## Installation
-To install the package, clone the repository and install the dependencies:
+
+For the current prototype:
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/kalman_soil_assimilation.git
+git clone https://github.com/joaogerd/kalman_soil_assimilation.git
 cd kalman_soil_assimilation
 pip install -r requirements.txt
 ```
 
-## Usage
-Example usage of the Kalman Filter:
+A future phase will migrate packaging to `pyproject.toml` and add optional dependency groups for development, visualization, satellite products and HPC workflows.
+
+## Minimal Kalman Filter example
+
 ```python
 from kalman_soil.kalman_filter import KalmanFilter
 import numpy as np
- # This filter estimates soil moisture in two layers using temperature as an observation.
-                                                                                  
- state_dim = 2  # Soil moisture in two layers
- obs_dim = 1    # Temperature as observation
-                                                                                  
- kf = KalmanFilter(state_dim, obs_dim)
- 
- # Define a sample observation matrix (temperature influence on soil moisture layers)
- # The first layer is more influenced than the second
- kf.set_observation_matrix(np.array([[1.0, 0.5]]))  
- 
- # Define a sample state transition matrix
- # Identity matrix means no dynamic evolution of state
- kf.set_state_transition(np.array([[1, 0], [0, 1]]))  
- 
- # Define noise covariance matrices
- kf.set_process_covariance(np.eye(state_dim) * 0.01)  
- kf.set_observation_covariance(np.eye(obs_dim) * 0.1)  
- 
- # Sample observation (temperature measurement)
- z = np.array([[0.9]])  
- 
- # Prediction and update
- kf.predict()
- kf.update(z)
- 
- # Print updated state
- print("Updated state (soil moisture estimates for two layers):", kf.get_state())
 
+state_dim = 2
+obs_dim = 1
 
+kf = KalmanFilter(state_dim, obs_dim)
+kf.set_observation_matrix(np.array([[1.0, 0.5]]))
+kf.set_state_transition(np.eye(state_dim))
+kf.set_process_covariance(np.eye(state_dim) * 0.01)
+kf.set_observation_covariance(np.eye(obs_dim) * 0.1)
+
+z = np.array([[0.9]])
+
+kf.predict()
+kf.update(z)
+
+print(kf.get_state())
 ```
 
-## 📌 Roadmap  
-- [x] Implement basic Kalman Filter (KF)
-- [ ] Extend to Extended Kalman Filter (EKF)
-- [ ] Integrate satellite data (SMAP, ASCAT, GLDAS)
-- [ ] Validate against MONAN simulations
+## Development principles
 
-Check out our detailed planning in [ROADMAP.md](./ROADMAP.md).  
+- Keep the architecture simple and explicit.
+- Separate configuration from execution logic.
+- Preserve scientific traceability.
+- Prefer small, reviewable branches and pull requests.
+- Add tests before increasing algorithmic complexity.
+- Avoid hidden hardcoded paths, machine names or queue settings.
+- Support HPC use cases without turning the package into a heavy workflow framework.
 
 ## License
-This project is licensed under the **Creative Commons Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)**.
-See the full license text [here](https://creativecommons.org/licenses/by-nc/3.0/legalcode).
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request with improvements.
+This repository currently declares the Creative Commons Attribution-NonCommercial 3.0 Unported license. Because this is a software package, the license should be reviewed in a future governance phase and aligned with the intended software distribution policy.
 
-## Contact
-For any inquiries, feel free to reach out via GitHub issues or email.
+## Author
 
----
-**Author:** João Gerd Zell de Mattos
-
-
+João Gerd Zell de Mattos
