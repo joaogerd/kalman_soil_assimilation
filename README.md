@@ -26,7 +26,7 @@ The active development plan is documented in:
 - [ROADMAP.md](./ROADMAP.md) - current roadmap file;
 - [docs/development-roadmap.md](./docs/development-roadmap.md) - phased technical roadmap;
 - [docs/architecture.md](./docs/architecture.md) - recommended package architecture;
-- [docs/jaci-pbs.md](./docs/jaci-pbs.md) - initial guidance for JACI/PBS usage;
+- [docs/hpc-notes.md](./docs/hpc-notes.md) - initial HPC and PBS usage guidance;
 - [docs/configuration.md](./docs/configuration.md) - configuration strategy.
 
 ## Existing package layout
