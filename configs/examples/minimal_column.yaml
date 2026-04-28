@@ -1,0 +1,36 @@
+# Minimal synthetic column configuration.
+# This file is a documentation scaffold. Runtime parsing will be implemented later.
+
+experiment:
+  name: minimal_column
+  description: Synthetic one-column soil-moisture Kalman Filter example.
+  valid_time: 2000-01-01T00:00:00Z
+
+state:
+  variable: soil_moisture
+  units: m3 m-3
+  layers:
+    - name: layer_1
+      top_depth_m: 0.00
+      bottom_depth_m: 0.10
+    - name: layer_2
+      top_depth_m: 0.10
+      bottom_depth_m: 0.40
+
+background:
+  source: synthetic
+
+observations:
+  source: synthetic
+  operator: surface_soil_moisture
+
+uncertainty:
+  background_error: 0.05
+  observation_error: 0.03
+
+constraints:
+  min_soil_moisture: 0.02
+  max_soil_moisture: 0.60
+
+output:
+  directory: outputs/minimal_column
