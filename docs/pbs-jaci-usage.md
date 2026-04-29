@@ -33,6 +33,25 @@ Observed enabled queues include:
 - `preoper`
 - `longtime`
 
+## Python environment on JACI
+
+PBS jobs on JACI do not expose `python` by default in the batch environment.
+
+The validation jobs therefore load the Anaconda module and initialize Conda through:
+
+```bash
+module load anaconda
+start_conda
+```
+
+This setup is defined in:
+
+```text
+configs/sites/jaci/modules.sh
+```
+
+If the Python environment changes, update this file instead of editing the PBS templates.
+
 ## Local validation before PBS
 
 From the repository root:
@@ -63,6 +82,7 @@ Review and adjust:
 - memory;
 - number of CPUs;
 - module names;
+- Conda initialization command;
 - scratch, work and output paths;
 - MONAN and JEDI root paths.
 
