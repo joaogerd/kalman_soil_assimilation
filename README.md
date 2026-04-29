@@ -26,7 +26,8 @@ The active development plan is documented in:
 - [ROADMAP.md](./ROADMAP.md) - current roadmap file;
 - [docs/development-roadmap.md](./docs/development-roadmap.md) - phased technical roadmap;
 - [docs/architecture.md](./docs/architecture.md) - recommended package architecture;
-- [docs/hpc-notes.md](./docs/hpc-notes.md) - initial HPC and PBS usage guidance;
+- [docs/installation.md](./docs/installation.md) - installation and dependency guide;
+- [docs/pbs-jaci-usage.md](./docs/pbs-jaci-usage.md) - PBS/JACI usage guide;
 - [docs/configuration.md](./docs/configuration.md) - configuration strategy.
 
 ## Existing package layout
@@ -50,10 +51,16 @@ For the current prototype:
 ```bash
 git clone https://github.com/joaogerd/kalman_soil_assimilation.git
 cd kalman_soil_assimilation
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-A future phase will migrate packaging to `pyproject.toml` and add optional dependency groups for development, visualization, satellite products and HPC workflows.
+For editable development mode:
+
+```bash
+python -m pip install -e .
+```
+
+See [docs/installation.md](./docs/installation.md) for more details.
 
 ## Minimal Kalman Filter example
 
