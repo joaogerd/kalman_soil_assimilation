@@ -2,6 +2,11 @@
 # Environment modules for JACI PBS jobs.
 # This file prepares the Python runtime used by validation jobs.
 
+# Some site-provided Conda activation scripts reference variables that may be
+# unset. Temporarily disable nounset while loading Anaconda and starting Conda,
+# then restore it before returning to the repository scripts.
+set +u
+
 if command -v module >/dev/null 2>&1; then
   module load anaconda
 else
@@ -13,6 +18,8 @@ if command -v start_conda >/dev/null 2>&1; then
 else
   printf '[WARN] start_conda command not available after loading anaconda.\n' >&2
 fi
+
+set -u
 
 if command -v python >/dev/null 2>&1; then
   printf '[INFO] Python runtime: %s\n' "$(command -v python)"
