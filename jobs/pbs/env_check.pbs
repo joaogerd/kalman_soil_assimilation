@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#PBS -N ksa_env_check
+#PBS -l select=1:ncpus=1:mem=4gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+
+set -euo pipefail
+
+cd "${PBS_O_WORKDIR:-$PWD}"
+
+source configs/sites/jaci/env.sh
+source configs/sites/jaci/paths.sh
+source configs/sites/jaci/modules.sh
+
+mkdir -p "${KSA_LOG_DIR}"
+
+bash scripts/env_check.sh
